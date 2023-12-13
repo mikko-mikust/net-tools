@@ -156,29 +156,80 @@ class Ui_MainWindow(QMainWindow):
 
         self.gridLayout_2.addWidget(self.b64_ui_w, 1, 0, 1, 3)
 
+        self.scan_for_ip = QWidget(self.centralwidget)
+        self.scan_for_ip.setObjectName(u"scan_for_ip")
+        self.gridLayout = QGridLayout(self.scan_for_ip)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.min_ip = QLineEdit(self.scan_for_ip)
+        self.min_ip.setObjectName(u"min_ip")
+
+        self.gridLayout.addWidget(self.min_ip, 0, 1, 1, 1)
+
+        self.label_4 = QLabel(self.scan_for_ip)
+        self.label_4.setObjectName(u"label_4")
+
+        self.gridLayout.addWidget(self.label_4, 0, 2, 1, 1)
+
+        self.max_ip = QLineEdit(self.scan_for_ip)
+        self.max_ip.setObjectName(u"max_ip")
+
+        self.gridLayout.addWidget(self.max_ip, 0, 3, 1, 1)
+
+        self.label_5 = QLabel(self.scan_for_ip)
+        self.label_5.setObjectName(u"label_5")
+
+        self.gridLayout.addWidget(self.label_5, 0, 0, 1, 1)
+
+        self.sc_ip = QPushButton(self.scan_for_ip)
+        self.sc_ip.setObjectName(u"sc_ip")
+
+        self.gridLayout.addWidget(self.sc_ip, 0, 4, 1, 1)
+
+        self.ip_res = QTextBrowser(self.scan_for_ip)
+        self.ip_res.setObjectName(u"ip_res")
+
+        self.gridLayout.addWidget(self.ip_res, 1, 0, 1, 5)
+
+        self.gridLayout_2.addWidget(self.scan_for_ip, 1, 0, 1, 3)
+
 
         self.retranslateUi(MainWindow)
         #self.port_ui_w.hide()
         self.b64_ui_w.hide()
+        self.scan_for_ip.hide()
 
         QMetaObject.connectSlotsByName(MainWindow)
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"Tools(rubbish)", None))
         self.b64_but.setText(QCoreApplication.translate("MainWindow", u"base64", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"ip:", None))
         self.lineEdit.setText(QCoreApplication.translate("MainWindow", u"127.0.0.1", None))
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u7aef\u53e3", None))
         self.lineEdit_2.setText(QCoreApplication.translate("MainWindow", u"1", None))
+        self.b64_dec_but.setToolTip(QCoreApplication.translate("MainWindow",
+                                                               u"\u4ece\u4e0b\u65b9\u6587\u672c\u6846\u89e3\u5bc6base64\u5e76\u5199\u5165\u4e0a\u65b9\u6587\u672c\u6846",
+                                                               None))
+        self.b64_swap_but.setToolTip(QCoreApplication.translate("MainWindow",
+                                                                u"\u4ea4\u6362\u4e24\u4e2a\u6587\u672c\u6846\u5185\u5bb9",
+                                                                None))
+        self.b64_enc_but.setToolTip(QCoreApplication.translate("MainWindow",
+                                                               u"\u4ece\u4e0a\u65b9\u6587\u672c\u6846\u52a0\u5bc6base64\u5e76\u5199\u5165\u4e0b\u65b9\u6587\u672c\u6846",
+                                                               None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u7ed3\u675f\u7aef\u53e3", None))
         self.lineEdit_3.setText(QCoreApplication.translate("MainWindow", u"1024", None))
         self.pushButton_2.setText(QCoreApplication.translate("MainWindow", u"start", None))
         self.textBrowser.setHtml(QCoreApplication.translate("MainWindow", u"", None))
-        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"ip_scan", None))
         self.port_but.setText(QCoreApplication.translate("MainWindow", u"port_scan", None))
         self.b64_dec_but.setText(QCoreApplication.translate("MainWindow", u"dec", None))
         self.b64_swap_but.setText(QCoreApplication.translate("MainWindow", u"swap", None))
         self.b64_enc_but.setText(QCoreApplication.translate("MainWindow", u"enc", None))
+        self.min_ip.setText(QCoreApplication.translate("MainWindow", u"192.168.1.1", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"max_ip", None))
+        self.max_ip.setText(QCoreApplication.translate("MainWindow", u"192.168.1.254", None))
+        self.label_5.setText(QCoreApplication.translate("MainWindow", u"min_ip", None))
+        self.sc_ip.setText(QCoreApplication.translate("MainWindow", u"scan", None))
     # retranslateUi
 
