@@ -1,5 +1,7 @@
 import base64
 import ipaddress
+import selectors
+
 import aioping
 # from PySide6.QtWidgets import *
 # from PySide6.QtGui import *
@@ -9,8 +11,6 @@ import asyncio
 (res, ip_g, min_p, max_p, res2,
  start_ip, end_ip, temp_res) = (None, None, None,
                                 None, None, None, None, None,)
-
-semp = asyncio.Semaphore(500)
 
 
 class T(QThread):
@@ -29,13 +29,15 @@ async def scan_port(ip, port, aa):
         try:
             reader, writer = await asyncio.open_connection(ip, port)
             writer.close()
+            aa.release()
             return f"{ip}:{port}, State: Open"
         except (OSError, asyncio.TimeoutError):
             return f"{ip}:{port}, State: Closed"
 
 
 async def main_gen_res():
-    tasks = [scan_port(ip_g, port, semp) for port in range(min_p, max_p + 1)]
+    aa = asyncio.Semaphore(500)
+    tasks = [scan_port(ip_g, port, aa) for port in range(min_p, max_p + 1)]
     results = await asyncio.gather(*tasks)
     global res
     res = ''
@@ -66,14 +68,16 @@ a2 = T2()
 
 async def ip_scan2(ip, aa):
     async with aa:
-        global temp_res
+
+        global res2
+        res2 = ''
 
         ip = str(ipaddress.IPv4Address(ip))
         try:
             await aioping.ping(ip)
-            temp_res.append(f'{ip} alive\n')
+            res2 += f'{ip} alive\n'
         except TimeoutError:
-            temp_res.append(f'{ip} dead\n')
+            res2 += f'{ip} dead\n'
 
 
 async def main_gen_res2():
@@ -84,12 +88,9 @@ async def main_gen_res2():
         t2 = int(ipaddress.ip_address(end_ip)) + 1
         if t2 <= t1:
             raise ValueError('ip invalid')
-
-        temp_res = []
-        tasks = [ip_scan2(ip, semp) for ip in range(t1, t2)]
+        aa = asyncio.Semaphore(500)
+        tasks = [ip_scan2(ip, aa) for ip in range(t1, t2)]
         await asyncio.gather(*tasks)
-        for it in temp_res:
-            res2 += it
     except Exception as e:
         res2 = '%s:%s' % (type(e).__name__, e.__str__())
         # print(res2)
