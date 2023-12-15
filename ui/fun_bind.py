@@ -70,7 +70,6 @@ async def ip_scan2(ip, aa):
         global temp_res
 
         ip = str(ipaddress.IPv4Address(ip))
-        print(ip)
         try:
             await aioping.ping(ip)
             temp_res.append(f'{ip} alive\n')
