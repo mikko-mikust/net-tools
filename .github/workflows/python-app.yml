@@ -30,7 +30,7 @@ jobs:
         if ( Test-Path -Path $GITHUB_WORKSPACE/src/requirements.txt ){ pip install -r $GITHUB_WORKSPACE/src/requirements.txt;}
     - name: output exe
       run: |
-        pyinstaller -w -F $GITHUB_WORKSPACE/src/main.py --distpath $GITHUB_WORKSPACE
+        pyinstaller -w -F --distpath $GITHUB_WORKSPACE/ $GITHUB_WORKSPACE/src/main.py
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
