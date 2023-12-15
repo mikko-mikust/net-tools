@@ -8,15 +8,16 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import *
-from PySide6.QtGui import *
+#from PySide6.QtCore import *
+from PySide6.QtCore import QCoreApplication,QRect,QMetaObject
+##from PySide6.QtGui import *
 from PySide6.QtWidgets import *
+
 
 class Ui_MainWindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.setupUi(self)
-
 
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -31,7 +32,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.gridLayout_2.addWidget(self.b64_but, 0, 1, 1, 1)
 
-        self.port_ui_w=QWidget(MainWindow)
+        self.port_ui_w = QWidget(MainWindow)
         self.port_ui = QGridLayout(self.port_ui_w)
         self.port_ui.setObjectName(u"port_ui")
         self.horizontalLayout = QHBoxLayout()
@@ -43,7 +44,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.lineEdit = QLineEdit(self.centralwidget)
         self.lineEdit.setObjectName(u"lineEdit")
-
 
         self.horizontalLayout.addWidget(self.lineEdit)
 
@@ -78,7 +78,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.horizontalLayout.addWidget(self.pushButton_2)
 
-
         self.port_ui.addLayout(self.horizontalLayout, 1, 1, 1, 1)
 
         self.textBrowser = QTextBrowser(self.centralwidget)
@@ -87,7 +86,7 @@ class Ui_MainWindow(QMainWindow):
 
         self.port_ui.addWidget(self.textBrowser, 2, 1, 1, 1)
 
-        #self.gridLayout_2.addLayout(self.port_ui_w)
+        # self.gridLayout_2.addLayout(self.port_ui_w)
         self.gridLayout_2.addWidget(self.port_ui_w, 1, 0, 1, 3)
 
         self.pushButton = QPushButton(self.centralwidget)
@@ -100,7 +99,6 @@ class Ui_MainWindow(QMainWindow):
 
         self.gridLayout_2.addWidget(self.port_but, 0, 2, 1, 1)
 
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -110,7 +108,7 @@ class Ui_MainWindow(QMainWindow):
         self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
-        self.b64_ui_w=QWidget(MainWindow)
+        self.b64_ui_w = QWidget(MainWindow)
         self.b64_ui_layout = QGridLayout(self.b64_ui_w)
         self.b64_ui_layout.setObjectName(u"b64_ui_layout")
         self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Expanding, QSizePolicy.Minimum)
@@ -192,13 +190,13 @@ class Ui_MainWindow(QMainWindow):
 
         self.gridLayout_2.addWidget(self.scan_for_ip, 1, 0, 1, 3)
 
-
         self.retranslateUi(MainWindow)
-        #self.port_ui_w.hide()
+        # self.port_ui_w.hide()
         self.b64_ui_w.hide()
         self.scan_for_ip.hide()
 
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
@@ -209,13 +207,16 @@ class Ui_MainWindow(QMainWindow):
         self.label_2.setText(QCoreApplication.translate("MainWindow", u"\u5f00\u59cb\u7aef\u53e3", None))
         self.lineEdit_2.setText(QCoreApplication.translate("MainWindow", u"1", None))
         self.b64_dec_but.setToolTip(QCoreApplication.translate("MainWindow",
-                                                               u"\u4ece\u4e0b\u65b9\u6587\u672c\u6846\u89e3\u5bc6base64\u5e76\u5199\u5165\u4e0a\u65b9\u6587\u672c\u6846",
+                                                               u"\u4ece\u4e0b\u65b9\u6587\u672c\u6846\u89e3"
+                                                               u"\u5bc6base64\u5e76\u5199\u5165\u4e0a\u65b9\u6587\u672c\u6846",
                                                                None))
         self.b64_swap_but.setToolTip(QCoreApplication.translate("MainWindow",
-                                                                u"\u4ea4\u6362\u4e24\u4e2a\u6587\u672c\u6846\u5185\u5bb9",
+                                                                u"\u4ea4\u6362\u4e24\u4e2a\u6587\u672c\u6846\u5185"
+                                                                u"\u5bb9",
                                                                 None))
         self.b64_enc_but.setToolTip(QCoreApplication.translate("MainWindow",
-                                                               u"\u4ece\u4e0a\u65b9\u6587\u672c\u6846\u52a0\u5bc6base64\u5e76\u5199\u5165\u4e0b\u65b9\u6587\u672c\u6846",
+                                                               u"\u4ece\u4e0a\u65b9\u6587\u672c\u6846\u52a0"
+                                                               u"\u5bc6base64\u5e76\u5199\u5165\u4e0b\u65b9\u6587\u672c\u6846",
                                                                None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"\u7ed3\u675f\u7aef\u53e3", None))
         self.lineEdit_3.setText(QCoreApplication.translate("MainWindow", u"1024", None))
@@ -232,4 +233,3 @@ class Ui_MainWindow(QMainWindow):
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"min_ip", None))
         self.sc_ip.setText(QCoreApplication.translate("MainWindow", u"scan", None))
     # retranslateUi
-
