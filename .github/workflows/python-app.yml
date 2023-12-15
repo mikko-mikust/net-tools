@@ -30,7 +30,7 @@ jobs:
         if ( Test-Path -Path requirements.txt ){ pip install -r requirements.txt;}
     - name: output exe
       run: |
-        pyinstaller -w -F $GITHUB_WORKSPACE/main.py
+        pyinstaller -w -F $GITHUB_WORKSPACE/src/main.py ----distpath $GITHUB_WORKSPACE
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -48,7 +48,7 @@ jobs:
          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
          upload_url: ${{ steps.create_release.outputs.upload_url }}
-         asset_path: ${{ github.workspace }}/dist/main.exe
+         asset_path: ${{ github.workspace }}/main.exe
          asset_name: ${{ github.event_name }}.exe
          asset_content_type: application/exe
         
