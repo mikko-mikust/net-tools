@@ -53,7 +53,6 @@ def port_scan_async():
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         loop.run_until_complete(main_gen_res())
-        # print(res)
         loop.close()
     except Exception as e:
         global res
