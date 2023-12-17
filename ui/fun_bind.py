@@ -190,6 +190,8 @@ def hash_col():
     if (not files) or files == '':
         return
     for bb in files.split(sep=','):
+        if bb == '':
+            continue
         try:
 
             cc = QFile(bb)

@@ -38,12 +38,14 @@ fun_bind.a3.finished.connect(lambda: m_ui.hash_res_view.setText(fun_bind.res3))
 
 
 def fu_k(e):
-    # print(e.mimeData().text())
-    ans = []
+    print(e.mimeData().text())
+    ans = ''
     for aa in e.mimeData().text().split('\n'):
         if aa != '':
-            ans.append(aa[8:])
+            ans += aa[8:] + ','
+
     fun_bind.files = ans
+    fun_bind.a3.start()
 
 
 m_ui.hash_w.dropEvent = fu_k

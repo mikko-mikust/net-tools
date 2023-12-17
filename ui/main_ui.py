@@ -22,7 +22,7 @@ class Ui_MainWindow(QMainWindow):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(1300, 700)
         f = QFont()
         f.setPointSize(11)
         self.centralwidget = QWidget(MainWindow)
