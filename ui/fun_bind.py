@@ -12,9 +12,9 @@ from cryptography.hazmat.primitives.hashes import *
 algo_list = [SHA224(), SHA256(), SHA384(), SHA512(), SHA512_224(), SHA512_256(),
              BLAKE2b(64), BLAKE2s(32), SHA3_224(), SHA3_256(), SHA3_384(),
              SHA3_512(), SHAKE128(16), SHAKE256(32), SM3(), SHA1(), MD5()]
-(res, ip_g, min_p, max_p, res2,
- start_ip, end_ip, temp_res) = (None, None, None,
-                                None, None, None, None, None,)
+(res, ip_g, min_p, max_p, res2, res3,
+ start_ip, end_ip, temp_res, files) = (None, None, None, None, None,
+                                       None, None, None, None, None,)
 
 
 class T(QThread):
@@ -26,6 +26,18 @@ class T2(QThread):
     def run(self):
         ip_scan_async()
         pass
+
+
+class T3(QThread):
+    def run(self):
+        hash_col()
+
+
+a = T()
+
+a2 = T2()
+
+a3 = T3()
 
 
 async def scan_port(ip, port, aa):
@@ -65,11 +77,6 @@ def port_scan_async():
     except Exception as e:
         global res
         res = f'{type(e).__name__}:{e.__str__()}'
-
-
-a = T()
-
-a2 = T2()
 
 
 async def ip_scan2(ip, aa):
@@ -166,24 +173,27 @@ def chose_file():
 
 
 def file_tostring(r):
-    res = ''
+    global files
+    files = ''
     for aa in range(len(r)):
         if aa:
-            res += ','
-        res += r[aa]
+            files += ','
+        files += r[aa]
+    # print(files)
+    return files
 
-    return res
 
-
-def hash_col(file_list: str):
-    res = ''
-    files = file_list.split(sep=',')
-    print(files)
-    for bb in files:
+def hash_col():
+    global files, res3
+    res3 = ''
+    # print(files)
+    if (not files) or files == '':
+        return
+    for bb in files.split(sep=','):
         try:
 
             cc = QFile(bb)
-            res += f'{bb} '
+            res3 += f'{bb} '
 
             if not cc.exists():
                 raise OSError('文件不存在')
@@ -191,7 +201,7 @@ def hash_col(file_list: str):
                 raise OSError('需要文件而不是目录')
 
             cc.open(QFile.ReadOnly)
-            res += f"  文件大小:{cc.size()}字节\n"
+            res3 += f"  文件大小:{cc.size()}字节\n"
             # cc.readAll()
             s = QByteArray(cc.readAll())
 
@@ -199,12 +209,11 @@ def hash_col(file_list: str):
             for aa in algo_list:
                 b = Hash(aa)
                 b.update(s.data())
-                res += f'{aa.name}:{b.finalize().hex()}\n'
+                res3 += f'{aa.name}:{b.finalize().hex()}\n'
 
         except Exception as e:
-            res += f'{type(e).__name__}:{e.__str__()}\n'
-        res += '\n'
-    return res
+            res3 += f'{type(e).__name__}:{e.__str__()}\n'
+        res3 += '\n'
 
 # def show_info(title='提示', word=''):
 #     QMessageBox().information(QWidget(), title, word, QMessageBox.StandardButton.Ok)

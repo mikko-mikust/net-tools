@@ -30,11 +30,11 @@ m_ui.hash_chose_file.clicked.connect(
                                         )
 )
 m_ui.hash_start.clicked.connect(
-    lambda: m_ui.hash_res_view.setText(
-        fun_bind.hash_col(m_ui.hash_file_path.text()
-                          )
-    )
+
+    lambda: fun_bind.a3.start()
+
 )
+fun_bind.a3.finished.connect(lambda: m_ui.hash_res_view.setText(fun_bind.res3))
 
 
 def fu_k(e):
@@ -43,8 +43,7 @@ def fu_k(e):
     for aa in e.mimeData().text().split('\n'):
         if aa != '':
             ans.append(aa[8:])
-    m_ui.hash_res_view.setText(
-        fun_bind.hash_col(fun_bind.file_tostring(ans)))
+    fun_bind.files = ans
 
 
 m_ui.hash_w.dropEvent = fu_k
