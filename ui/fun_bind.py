@@ -35,11 +35,11 @@ async def scan_port(ip, port, aa):
 
             reader, writer = await asyncio.wait_for(asyncio.open_connection(ip, port), timeout=0.5)
             writer.close()
-            res += f"{ip}:{port:05d}\t 连接成功\n"
+            res += f"{ip}:{port} \t 连接成功\n"
         except asyncio.TimeoutError:
-            res += f"{ip}:{port:05d}\t连接超时,端口可能关闭\n"
+            res += f"{ip}:{port} \t 连接超时,端口可能关闭\n"
         except Exception as aa:
-            res += f"{ip}:{port:05d}\t 尝试连接时出现异常 {type(aa).__name__}:{aa.__str__()}\n"
+            res += f"{ip}:{port} \t 尝试连接时出现异常 {type(aa).__name__}:{aa.__str__()}\n"
 
 
 async def main_gen_res():
@@ -81,9 +81,9 @@ async def ip_scan2(ip, aa):
         ip = str(ipaddress.IPv4Address(ip))
         try:
             res = await aioping.ping(ip, timeout=2)
-            res2 += f'{ip:16s}连接成功 延迟:{res * 1000:.3f}毫秒\n'
+            res2 += f'{ip:16s} \t 连接成功 \t 延迟:{res * 1000:.3f}毫秒\n'
         except TimeoutError:
-            res2 += f'{ip:16s}连接超时\n'
+            res2 += f'{ip:16s} \t 连接超时\n'
 
 
 async def main_gen_res2():
