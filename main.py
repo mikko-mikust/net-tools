@@ -1,4 +1,4 @@
-import sys
+import sys, os
 # from PySide6.QtGui import *
 from PySide6.QtWidgets import QApplication
 # from PySide6.QtCore import *
@@ -42,7 +42,10 @@ def fu_k(e):
     ans = ''
     for aa in e.mimeData().text().split('\n'):
         if aa != '':
-            ans += aa[8:] + ','
+            if os.name == 'nt':
+                ans += aa[8:] + ','
+            else:
+                ans += aa[7:] + ','
 
     fun_bind.files = ans
     fun_bind.a3.start()
