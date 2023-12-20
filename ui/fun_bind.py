@@ -1,6 +1,6 @@
 import base64
 import ipaddress
-import selectors
+import time
 
 import aioping
 from PySide6.QtWidgets import *
@@ -13,8 +13,9 @@ algo_list = [SHA224(), SHA256(), SHA384(), SHA512(), SHA512_224(), SHA512_256(),
              BLAKE2b(64), BLAKE2s(32), SHA3_224(), SHA3_256(), SHA3_384(),
              SHA3_512(), SHAKE128(16), SHAKE256(32), SM3(), SHA1(), MD5()]
 (res, ip_g, min_p, max_p, res2, res3,
- start_ip, end_ip, temp_res, files) = (None, None, None, None, None,
-                                       None, None, None, None, None,)
+ start_ip, end_ip, temp_res, files,
+ tol_connect, tol_sucess) = (None, None, None, None, None,
+                             None, None, None, None, None, None, None,)
 
 
 class T(QThread):
@@ -42,12 +43,13 @@ a3 = T3()
 
 async def scan_port(ip, port, aa):
     async with aa:
-        global res
+        global res, tol_sucess
         try:
 
             reader, writer = await asyncio.wait_for(asyncio.open_connection(ip, port), timeout=0.5)
             writer.close()
             res += f"{ip}:{port} \t 连接成功\n"
+            tol_sucess += 1
         except asyncio.TimeoutError:
             res += f"{ip}:{port} \t 连接超时,端口可能关闭\n"
         except Exception as aa:
@@ -59,17 +61,21 @@ async def main_gen_res():
     tasks = [scan_port(ip_g, port, aa) for port in range(min_p, max_p + 1)]
     global res
     res = ''
+    start_time = time.time()
     await asyncio.gather(*tasks)
+    res = f"共计{tol_connect}端口 \t 成功{tol_sucess}次 \t 耗时{time.time() - start_time:.3f}s\n" + res
 
 
 def port_scan_async():
     try:
-        global ip_g, min_p, max_p
+        global ip_g, min_p, max_p, tol_connect, tol_sucess
         min_p = int(min_p)
         max_p = int(max_p)
         ipaddress.IPv4Address(ip_g)
         if min_p < 1 or max_p > 65535 or max_p < min_p:
             raise ValueError('端口不合法')
+        tol_connect = max_p - min_p + 1
+        tol_sucess = 0
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         loop.run_until_complete(main_gen_res())
@@ -82,28 +88,33 @@ def port_scan_async():
 async def ip_scan2(ip, aa):
     async with aa:
 
-        global res2
-        res2 = ''
+        global res2, tol_sucess
 
         ip = str(ipaddress.IPv4Address(ip))
         try:
             res = await aioping.ping(ip, timeout=2)
             res2 += f'{ip:16s} \t 连接成功 \t 延迟:{res * 1000:.3f}毫秒\n'
+            tol_sucess += 1
         except TimeoutError:
             res2 += f'{ip:16s} \t 连接超时\n'
 
 
 async def main_gen_res2():
     try:
-        global res2, temp_res
+        global res2, temp_res, tol_connect, tol_sucess
+        tol_connect = 0
+        tol_sucess = 0
         res2 = ''
         t1 = int(ipaddress.ip_address(start_ip))
         t2 = int(ipaddress.ip_address(end_ip)) + 1
+        tol_connect = t2 - t1
         if t2 <= t1:
             raise ValueError('ip invalid')
         aa = asyncio.Semaphore(500)
         tasks = [ip_scan2(ip, aa) for ip in range(t1, t2)]
+        start_time = time.time()
         await asyncio.gather(*tasks)
+        res2 = f"总计:{tol_connect}次 \t 成功:{tol_sucess}次  \t 耗时{time.time() - start_time:.3f}s\n" + res2
     except Exception as e:
         res2 = f'{type(e).__name__}:{e.__str__()}'
         # print(res2)
@@ -119,11 +130,10 @@ def ip_scan_async():
 
 
 def port_scan2(ip="127.0.0.1", min_ports=1, max_ports=1024):
-    global ip_g, min_p, max_p
+    global ip_g, min_p, max_p, a
     ip_g = ip
     min_p = min_ports
     max_p = max_ports
-    global a
     a.start()
 
 
