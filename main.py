@@ -1,7 +1,8 @@
-import sys, os
-# from PySide6.QtGui import *
-from PySide6.QtWidgets import QApplication
-# from PySide6.QtCore import *
+import os
+import sys
+
+from PySide6.QtWidgets import *
+
 from ui import fun_bind, main_ui
 
 app = QApplication(sys.argv)
