@@ -41,13 +41,15 @@ fun_bind.a3.finished.connect(lambda: m_ui.hash_res_view.setText(fun_bind.res3))
 
 
 def fu_k(e):
-    print(e.mimeData().text())
+    print(repr(e.mimeData().text()))
     ans = ''
-    for aa in e.mimeData().text().split('\n'):
-        if aa != '':
-            if os.name == 'nt':
+    if os.name == 'nt':
+        for aa in e.mimeData().text().split('\n'):
+            if aa != '':
                 ans += aa[8:] + ','
-            else:
+    else:
+        for aa in e.mimeData().text().split('\r\n'):
+            if aa != '':
                 ans += aa[7:] + ','
 
     fun_bind.files = ans
